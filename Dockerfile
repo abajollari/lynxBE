@@ -1,0 +1,31 @@
+FROM node:14-alpine
+WORKDIR /usr/src/app
+COPY . .
+RUN npm install
+RUN npm run build
+
+ENV NODE_ENV="production"
+ENV DATABASE_HOST="ari-sqlserver.database.windows.net"
+ENV DATABASE_PORT=1433
+ENV DATABASE_USERNAME="abajollari"
+ENV DATABASE_PASSWORD="Sryan@1122"
+ENV DATABASE_DB="ari-sqldb"
+ENV PORT=3001
+ENV JWT_RESET="resetsecret"
+ENV JWT_SECRET="mysecret"
+ENV REFRESH_JWT_SECRET="mysecretref"
+ENV JWT_EMAIL="abajollari@lynxdigital.org"
+ENV EMAIL_ADDRESS="abajollari@lynxdigital.org"
+ENV MJ_APIKEY_PUBLIC='077fc21857d31f1f416fbf1ab7477164'
+ENV MJ_APIKEY_PRIVATE='03caddedf8edb44156d03585242e359a'
+ENV MJ_EMAIL='arianb1@hotmail.com'
+ENV EMAIL_PASSWORD="Lryan@1122"
+ENV ETH_NET="kovan"
+
+ENV ETHSCANR='ASFQIXUSZJRKFICTNWYVX8G7TI11WZ9FDD'
+ENV ETHSCANM='WIUA9D4APWKWMKDQGTW7BXSPMRN9EEA1DQ'
+ENV SYMB='DAI'
+ENV PROTOCOL='AAVE'
+
+EXPOSE 3001
+CMD [ "node", "./dist" ]

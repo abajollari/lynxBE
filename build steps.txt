@@ -1,0 +1,18 @@
+
+kill all -9 node
+npm run dev
+
+npm run debug
+npm tsc
+
+--release to azure
+===========================
+1. build
+npm run build
+
+2. build container
+docker build -t lynxdigitalauth .
+docker build -t lynxauth . 
+
+3.push to registry
+use vscode ui

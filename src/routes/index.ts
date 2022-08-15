@@ -1,0 +1,30 @@
+import express from "express";
+import { Connection } from "typeorm";
+import UserController from "../controllers/UserController";
+import UserService from "../services/UserService";
+import ActivityTrackerService from "../services/ActivityTrackerService";
+import createUserRouter from "./userRouter";
+import TokenService from "../services/TokenService";
+import TransactionService from "../services/TransactionService";
+import VaultService from "../services/VaultService";
+import BlockchainService from "../services/BlockchainService";
+import createPubRouter from "./pubRouter";
+import PubController from "../controllers/PubController";
+import PubService from "../services/PubService";
+
+export default (connection: Connection) => {
+    const router = express.Router();
+    const activityTrackerService: ActivityTrackerService = new ActivityTrackerService(connection);
+    const vaultService: VaultService = new VaultService(process.env.VAULT_ROLE_ID!, process.env.VAULT_SECRET_ID!, process.env.VAULT_HOST!);
+    const tokenService: TokenService = new TokenService(connection);
+    const transactionService: TransactionService = new TransactionService(connection);
+    const blockchainService: BlockchainService = new BlockchainService();
+    const userService: UserService = new UserService(connection, activityTrackerService, tokenService, transactionService, vaultService, blockchainService);
+    const userController: UserController = new UserController(userService);
+    const pubService: PubService = new PubService();
+    const pubController: PubController = new PubController(pubService);
+    router.use('/auth', createUserRouter(userController));
+    router.use('/pub', createPubRouter(pubController));
+    router.get('/s', (req, res, next) => { res.json("tetweeeee") });
+    return router;
+};
